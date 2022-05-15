@@ -1,4 +1,5 @@
 import os
+from os import path
 import multiprocessing
 from playsound import playsound
 import random
@@ -6,28 +7,30 @@ from colorama import Fore, Style, Back
 import time
 from collections import namedtuple
 import json
+import typing as typ
+
 
 def main():
 	os.system('clear')
-	wordFilePath = "resources/words/"
 	soundsFilePath = "resources/sounds/"
-	files = (os.listdir(wordFilePath))
-	random.shuffle(files)
+	wordFilePath = "resources/words/"
 	score = 0
 	question = 0
-	questions = 10
+	questions = 2
 	result = 0
-	myfiles = files[0:questions]
+	myFiles = getFileList(wordFilePath)[0:questions]
+	Entry = namedtuple('result','word score')
 	userName = input("Enter your Name: ")
 	print("Hello: " + userName)
-	for x in range(len(myfiles)):
+	myResults = loadResults(userName)
+	for x in range(len(myFiles)):
 		start = time.time()
-		myWord = myfiles[question].split(".")[0]
-		wordSound = multiprocessing.Process(target=playsound, args=(wordFilePath+files[question],))
+		myWord = myFiles[question].split(".")[0]
+		wordSound = multiprocessing.Process(target=playsound, args=(wordFilePath+myFiles[question],))
 		wordSound.start()
 		string = input("Question " + str(question+1) + ": Please spell the word: ")
 		if(len(string)>0):
-			if string == myWord:
+			if string.lower() == myWord.lower():
 				result = 1
 				print(Fore.GREEN + "Well done!" + Style.RESET_ALL)
 				playsound(soundsFilePath+"correct.m4a")
@@ -44,10 +47,55 @@ def main():
 			wordSound.terminate()
 			stop = time.time()
 			score+=calculateScore(myWord,stop-start,result)
+			myResults=appendToList(myResults,Entry(myWord,result))
 			question+=1
 	print(Back.CYAN + Fore.RED + "Your score is " + str(score) + Style.RESET_ALL)
+	print(myResults)
+	saveResult(userName,myResults)
 	saveScore(userName,round((10*score)/questions))
 	displayLeaderBoard()
+
+def loadResults(iPlayerName):
+	resultPathFile = "save/" + iPlayerName + ".txt"
+	scores = []
+	if path.exists(resultPathFile):
+		iFile = open(resultPathFile,"r")
+		records = iFile.read().split('\n')
+		Entry = namedtuple('result','word score')
+		for x in records:
+			pair = x.split(':')
+			if (len(pair[0])>0):
+				entry = Entry(pair[0],int(pair[1]))
+				scores.append(entry)
+	return scores
+
+def appendToList(iTupleList, iTuple):
+	listPointer = 0
+	myTuple = iTuple
+	myTupleList = iTupleList
+	newScore = 0
+	myElement = None
+	for idx, i in enumerate(myTupleList):
+		if i.word == myTuple.word:
+			newScore = i.score + int(myTuple.score)
+			myElement = idx
+	if myElement == None:
+		pass
+	else:
+		myTupleList.pop(myElement)
+	NewTuple = namedtuple('result','word score')
+	myNewTuple = NewTuple(myTuple.word,newScore)
+	myTupleList.append(myNewTuple)
+	return myTupleList
+
+def saveResult(iPlayerName, iResults):
+	resultsPathFile = "save/" + iPlayerName + ".txt"
+	oFile = open(resultsPathFile,"w")
+	print(iResults)
+	for x in iResults:
+		if(len(x.word)>0):
+			oFile.write(x.word + ":" + str(x.score) + '\n')
+	oFile.close()
 
 def saveScore(userName,score):
 	f = open("score.txt","a")
@@ -72,6 +120,17 @@ def displayLeaderBoard():
 
 def calculateScore(word,time,result):
 	return round(100*((len(word)/time)*result))
+
+def getFileList(path):
+	rawFiles = (os.listdir(path))
+	files = []
+	validFileTypes = [".m4a",".mp3"]
+	for x in rawFiles:
+		for y in validFileTypes:
+			if y in x:
+				files.append(x)
+	random.shuffle(files)
+	return files
 
 if __name__ == '__main__':
     main()
