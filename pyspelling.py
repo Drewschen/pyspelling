@@ -16,12 +16,13 @@ def main():
 	wordFilePath = "resources/words/"
 	score = 0
 	question = 0
-	questions = 2
+	questions = 10
 	result = 0
 	myFiles = getFileList(wordFilePath)[0:questions]
 	Entry = namedtuple('result','word score')
 	userName = input("Enter your Name: ")
 	print("Hello: " + userName)
+	userAge = input("Enter your Age: ")
 	myResults = loadResults(userName)
 	for x in range(len(myFiles)):
 		start = time.time()
@@ -50,7 +51,6 @@ def main():
 			myResults=appendToList(myResults,Entry(myWord,result))
 			question+=1
 	print(Back.CYAN + Fore.RED + "Your score is " + str(score) + Style.RESET_ALL)
-	print(myResults)
 	saveResult(userName,myResults)
 	saveScore(userName,round((10*score)/questions))
 	displayLeaderBoard()
@@ -91,7 +91,6 @@ def appendToList(iTupleList, iTuple):
 def saveResult(iPlayerName, iResults):
 	resultsPathFile = "save/" + iPlayerName + ".txt"
 	oFile = open(resultsPathFile,"w")
-	print(iResults)
 	for x in iResults:
 		if(len(x.word)>0):
 			oFile.write(x.word + ":" + str(x.score) + '\n')
