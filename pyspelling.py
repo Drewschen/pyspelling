@@ -1,6 +1,7 @@
 import os
 from os import path
 import multiprocessing
+from pickle import TRUE
 from playsound import playsound
 import random
 from colorama import Fore, Style, Back
@@ -23,33 +24,40 @@ def main():
 	userName = input("Enter your Name: ")
 	print("Hello: " + userName)
 	userAge = input("Enter your Age: ")
+	repeat = False
 	myResults = loadResults(userName)
-	for x in range(len(myFiles)):
+#	for x in range(len(myFiles)):
+	while question < questions:
 		start = time.time()
 		myWord = myFiles[question].split(".")[0]
 		wordSound = multiprocessing.Process(target=playsound, args=(wordFilePath+myFiles[question],))
 		wordSound.start()
-		string = input("Question " + str(question+1) + ": Please spell the word: ")
+		string = input("Question " + str(question+1) + ": Please spell the word (enter r to repeat): ")
+		repeat = False
 		if(len(string)>0):
-			if string.lower() == myWord.lower():
-				result = 1
-				print(Fore.GREEN + "Well done!" + Style.RESET_ALL)
-				playsound(soundsFilePath+"correct.m4a")
+			if string.lower() == 'r':
+				repeat = True
 			else:
-				result = 0
-				print(Fore.RED + "Wrong answer" + Style.RESET_ALL)
-				playsound(soundsFilePath+"wrong.m4a")
-				print("This word is spelt: " + '\033[1m' + myWord + '\033[0m')
-				print("Please repeat the word 3 times")
-				for y in range(0,3):
-					while string!=myWord:
-						string = input("Attempt " + str(y + 1) + ": ")
-					string = None
+				if string.lower() == myWord.lower():
+					result = 1
+					print(Fore.GREEN + "Well done!" + Style.RESET_ALL)
+					playsound(soundsFilePath+"correct.m4a")
+				else:
+					result = 0
+					print(Fore.RED + "Wrong answer" + Style.RESET_ALL)
+					playsound(soundsFilePath+"wrong.m4a")
+					print("This word is spelt: " + '\033[1m' + myWord + '\033[0m')
+					print("Please repeat the word 3 times")
+					for y in range(0,3):
+						while string!=myWord:
+							string = input("Attempt " + str(y + 1) + ": ")
+						string = None
 			wordSound.terminate()
 			stop = time.time()
-			score+=calculateScore(myWord,stop-start,result)
-			myResults=appendToList(myResults,Entry(myWord,result))
-			question+=1
+			if not repeat:
+				score+=calculateScore(myWord,stop-start,result)
+				myResults=appendToList(myResults,Entry(myWord,result))
+				question+=1
 	print(Back.CYAN + Fore.RED + "Your score is " + str(score) + Style.RESET_ALL)
 	saveResult(userName,myResults)
 	saveScore(userName,round((10*score)/questions))

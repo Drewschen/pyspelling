@@ -2,7 +2,6 @@ we:1
 then:1
 other:1
 them:1
-are:1
 all:1
 he:1
 there:1
@@ -19,7 +18,6 @@ do:1
 after:1
 come:1
 have:1
-i:1
 many:1
 this:1
 went:1
@@ -28,3 +26,5 @@ go:0
 with:0
 why:3
 should:2
+i:2
+are:2
