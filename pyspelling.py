@@ -28,7 +28,6 @@ def main():
     userAge = input("Enter your Age: ")
     repeat = False
     myResults = loadResults(userName)
-#	for x in range(len(myFiles)):
     while question < questions:
         start = time.time()
         myWord = myFiles[question].split(".")[0]
@@ -66,7 +65,7 @@ def main():
                         case 0: print(Fore.RED + Style.BRIGHT + '\033[1m', end='')
                         case 1: print(Fore.GREEN + Style.BRIGHT + '\033[1m', end='')
                         case _: print(Fore.LIGHTBLACK_EX, end='')
-                    print("-" + '\033[0m', end='')
+                    print('-' + '\033[0m', end='')
                     print(Style.RESET_ALL, end='')
                     i += 1
                 print()
