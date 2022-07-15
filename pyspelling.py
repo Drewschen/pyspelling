@@ -65,11 +65,6 @@ def main():
                         case 0: print(Fore.RED + '-', end='')
                         case 1: print(Fore.GREEN + '+', end='')
                         case _: print(' ', end='')
-                    # match resultsList[i]:
-                    #     case 0: print(Fore.RED + Style.BRIGHT + '\033[1m', end='')
-                    #     case 1: print(Fore.GREEN + Style.BRIGHT + '\033[1m', end='')
-                    #     case _: print(Fore.LIGHTBLACK_EX, end='')
-                    # print('-' + '\033[0m', end='')
                     print(Style.RESET_ALL, end='')
                     i += 1
                 print('|')
