@@ -1,8 +1,6 @@
-we:1
 then:1
 them:1
 all:1
-he:1
 there:1
 the:1
 could:1
@@ -14,12 +12,10 @@ after:1
 many:1
 this:1
 went:1
-here:0
 with:0
 why:3
 i:2
 are:2
-every:0
 come:2
 give:0
 go:1
@@ -29,7 +25,6 @@ have:2
 to:0
 now:0
 do:2
-who:0
 when:3
 for:2
 like:0
@@ -37,3 +32,13 @@ one:0
 little:2
 other:2
 should:3
+because:0
+some:0
+here:0
+we:2
+saw:0
+he:2
+every:1
+my:0
+what:0
+who:1

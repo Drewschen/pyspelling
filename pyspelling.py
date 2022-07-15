@@ -58,17 +58,21 @@ def main():
                         string = None
                 resultsList[question] = result
 
-                print(Fore.GREEN, end='')
                 i = 0
+                print('|', end='')
                 while i < len(resultsList):
                     match resultsList[i]:
-                        case 0: print(Fore.RED + Style.BRIGHT + '\033[1m', end='')
-                        case 1: print(Fore.GREEN + Style.BRIGHT + '\033[1m', end='')
-                        case _: print(Fore.LIGHTBLACK_EX, end='')
-                    print('-' + '\033[0m', end='')
+                        case 0: print(Fore.RED + '-', end='')
+                        case 1: print(Fore.GREEN + '+', end='')
+                        case _: print(' ', end='')
+                    # match resultsList[i]:
+                    #     case 0: print(Fore.RED + Style.BRIGHT + '\033[1m', end='')
+                    #     case 1: print(Fore.GREEN + Style.BRIGHT + '\033[1m', end='')
+                    #     case _: print(Fore.LIGHTBLACK_EX, end='')
+                    # print('-' + '\033[0m', end='')
                     print(Style.RESET_ALL, end='')
                     i += 1
-                print()
+                print('|')
 
             wordSound.terminate()
             stop = time.time()
