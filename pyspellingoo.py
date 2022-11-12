@@ -2,25 +2,28 @@
 from dataclasses import field, dataclass
 from os import listdir
 from os import getcwd
-import uuid
 
 
-@dataclass(frozen=False)
+@dataclass(frozen=True)
 class Environment:
     word_path: str = 'resources/words/'
     sound_path: str = "resources/sounds/"
+    default_extensions: str = ".mp3,.m4a"
+
+
+@dataclass(frozen=False)
+class Runtime:
     _extensions: list[str] = field(default_factory=list)
     _file_list: list[str] = field(default_factory=list)
-    email_addresses: list[str] = field(default_factory=list)
-    id: str = field(init=False, default_factory=uuid.uuid4)
-    _search_string: str = field(init=False, repr=False)
+    _sound_file_list: list[str] = field(default_factory=list)
 
     def __post_init__(self) -> None:
-        self._search_string = f"{self.word_path} {self.sound_path}"
-        self._extensions.append(".m4a")
-        self._extensions.append(".mp3")
-        for file in listdir(self.word_path):
+        for extension in Environment().default_extensions.split(","):
+            self._extensions.append(extension)
+        for file in listdir(Environment().word_path):
             self._file_list.append(file)
+        for file in listdir(Environment().sound_path):
+            self._sound_file_list.append(file)
 
 
 class Results:
@@ -125,5 +128,6 @@ print([result.score for result in results.get_results()])
 
 
 d = Dictionary()
-env = Environment()
+
 print(Environment())
+print(Runtime())
