@@ -1,5 +1,6 @@
 Mummy:59
 Daddy:38
+<<<<<<< HEAD
 Andrew:444
 Andrew:790
 fhdkj:1050
@@ -16,3 +17,23 @@ Andrew:680
 Andrew:887
 Andrew:700
 Andrew:634
+=======
+oliver:41
+oliver:158
+oliver:115
+oliver:179
+oliver:142
+oliver:35
+oliver:147
+Matthew:324
+Andrew:335
+oliver:102
+oliver:191
+oliver:283
+oliver:285
+oliver:146
+Agnes:232
+Andrew:640
+Andrew:491
+Andrew:547
+>>>>>>> 35e3c5a63101c90cbfabc6d6371366a61fc3f462
