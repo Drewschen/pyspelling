@@ -5,22 +5,22 @@ from os import getcwd
 import uuid
 
 
-@dataclass
+@dataclass(frozen=False)
 class Environment:
     word_path: str = 'resources/words/'
     sound_path: str = "resources/sounds/"
-    bar: list[str] = field(default_factory=list)
-    file_list: list[str] = field(default_factory=list)
+    _extensions: list[str] = field(default_factory=list)
+    _file_list: list[str] = field(default_factory=list)
     email_addresses: list[str] = field(default_factory=list)
     id: str = field(init=False, default_factory=uuid.uuid4)
     _search_string: str = field(init=False, repr=False)
 
     def __post_init__(self) -> None:
         self._search_string = f"{self.word_path} {self.sound_path}"
-        self.bar.append(".m4a")
-        self.bar.append(".mp3")
+        self._extensions.append(".m4a")
+        self._extensions.append(".mp3")
         for file in listdir(self.word_path):
-            self.file_list.append(file)
+            self._file_list.append(file)
 
 
 class Results:
